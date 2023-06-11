@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.saritechnew.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,10 +25,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        replaceFragment(new HomeFragment());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupWithNavController(navView, navController);
+        binding.navView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navigation_home:
+                    replaceFragment(new HomeFragment());
+                    break;
+                case R.id.navigation_history:
+                    replaceFragment(new HistoryFragment());
+                    break;
+                case R.id.navigation_inventory:
+                    replaceFragment(new InventoryFragment());
+                    break;
+                case R.id.navigation_profile:
+                    replaceFragment(new ProfileFragment());
+                    break;
+            }
+            return true;
+        });
 
         FloatingActionButton fab = findViewById(R.id.barcode_scanner);
         fab.setOnClickListener(v -> {
@@ -35,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
             startActivity(intent);
         });
+    }
 
+    private void replaceFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
     }
 
 }
+

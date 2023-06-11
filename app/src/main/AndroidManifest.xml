@@ -36,6 +36,9 @@
             android:name=".BarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
+        <activity android:name=".products.InventoryList"
+            android:theme="@style/Theme.SaritechNew.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

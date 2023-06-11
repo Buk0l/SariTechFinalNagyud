@@ -6,10 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProductDatabase extends SQLiteOpenHelper {
+        private Context context;
         private static final String DATABASE_NAME = "ProductList.db";
         private static final int DATABASE_VERSION = 2;
 
@@ -21,8 +25,10 @@ public class ProductDatabase extends SQLiteOpenHelper {
         private static final String COLUMN_QUANTITY = "quantity";
         private static final String COLUMN_PHOTO_PATH = "photo_path";
 
-        public ProductDatabase(Context context) {
+        public ProductDatabase(@Nullable Context context) {
                 super(context, DATABASE_NAME, null, DATABASE_VERSION);
+                this.context = context;
+
         }
 
         @Override
@@ -86,6 +92,38 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
                 return productList;
         }
+
+        public List<Products> getListProducts() {
+                List<Products> productList = new ArrayList<>();
+
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                        int idColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_ID);
+                        int nameColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME);
+                        int priceColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_PRICE);
+                        int barcodeColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_BARCODE);
+                        int quantityColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_QUANTITY);
+                        int photoPathColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_PHOTO_PATH);
+
+                        do {
+                                int id = cursor.getInt(idColumnIndex);
+                                String name = cursor.getString(nameColumnIndex);
+                                double price = cursor.getDouble(priceColumnIndex);
+                                String barcode = cursor.getString(barcodeColumnIndex);
+                                int quantity = cursor.getInt(quantityColumnIndex);
+                                String photoPath = cursor.getString(photoPathColumnIndex);
+
+                                Products product = new Products(id, name, price, barcode, quantity, photoPath);
+                                productList.add(product);
+                        } while (cursor.moveToNext());
+
+                        cursor.close();
+                }
+
+                return productList;
+        }
+
 
 
         public void updateProductByBarcode(String barcode, String name, double price, int quantity) {

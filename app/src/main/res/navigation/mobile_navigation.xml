@@ -13,19 +13,20 @@
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.example.saritechnew.ui.dashboard.HistoryFragment"
+        android:name="com.example.saritechnew.ui.history.HistoryFragment"
         android:label="History"
         tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_inventory"
-        android:name="com.example.saritechnew.ui.notifications.InventoryFragment"
+        android:name="com.example.saritechnew.ui.inventory.InventoryFragment"
         android:label="Inventory"
         tools:layout="@layout/fragment_inventory" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.saritechnew.ui.notifications.InventoryFragment"
+        android:name="com.example.saritechnew.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_inventory" />
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>
