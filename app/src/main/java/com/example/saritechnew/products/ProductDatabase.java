@@ -16,7 +16,6 @@ public class ProductDatabase extends SQLiteOpenHelper {
         private Context context;
         private static final String DATABASE_NAME = "ProductList.db";
         private static final int DATABASE_VERSION = 2;
-
         private static final String TABLE_NAME = "products";
         private static final String COLUMN_ID = "id";
         private static final String COLUMN_NAME = "name";
@@ -124,6 +123,13 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 return productList;
         }
 
+        public void deleteProductById(int productId) {
+                SQLiteDatabase db = getWritableDatabase();
+                String selection = COLUMN_ID + " = ?";
+                String[] selectionArgs = { String.valueOf(productId) };
+                db.delete(TABLE_NAME, selection, selectionArgs);
+                db.close();
+        }
 
 
         public void updateProductByBarcode(String barcode, String name, double price, int quantity) {

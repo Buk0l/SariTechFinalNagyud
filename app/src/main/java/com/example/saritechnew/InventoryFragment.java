@@ -81,5 +81,6 @@ public class InventoryFragment extends Fragment {
         productAdapter.setProducts(productList);
 
         return view;
+
     }
 }

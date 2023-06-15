@@ -1,13 +1,19 @@
 package com.example.saritechnew;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
 import java.util.ArrayList;
@@ -15,6 +21,7 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private final List<Products> productsList = new ArrayList<>();
+    ProductDatabase dbHelper;
 
     public void setProducts(List<Products> productList) {
         productsList.clear();
@@ -50,8 +57,38 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Products product = productsList.get(position);
         holder.textViewName.setText(product.getName());
-        holder.textViewPrice.setText(String.valueOf(product.getPrice()));
+        holder.textViewPrice.setText("Price : " + "₱" + String.valueOf(product.getPrice()));
+        holder.textViewQuantity.setText("Quantity : " + String.valueOf(product.getQuantity()));
         // Bind more product details to the corresponding views
+
+        holder.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create a PopupMenu
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                popupMenu.inflate(R.menu.kebab_menu); // Assuming you have a menu resource file named 'product_menu.xml'
+
+                // Handle menu item clicks
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_edit:
+                                // Handle edit action
+                                return true;
+                            case R.id.menu_delete:
+                                // Handle delete action
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                // Show the popup menu
+                popupMenu.show();
+            }
+        });
     }
 
     @Override
@@ -67,12 +104,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
         public TextView textViewPrice;
+        public TextView textViewQuantity;
+        public ImageView menuButton;
         // Declare more views for other product details
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
+            textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
+            menuButton = itemView.findViewById(R.id.menuButton);
             // Initialize other views for other product details
         }
     }
