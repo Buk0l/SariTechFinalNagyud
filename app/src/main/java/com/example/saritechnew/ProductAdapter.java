@@ -1,5 +1,6 @@
 package com.example.saritechnew;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +23,10 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private final List<Products> productsList = new ArrayList<>();
     ProductDatabase dbHelper;
+
+    public ProductAdapter(Context context) {
+        dbHelper = new ProductDatabase(context);
+    }
 
     public void setProducts(List<Products> productList) {
         productsList.clear();
@@ -78,6 +83,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 return true;
                             case R.id.menu_delete:
                                 // Handle delete action
+                                int itemPosition = holder.getAbsoluteAdapterPosition();
+                                Products product = productsList.get(itemPosition);
+                                int productId = product.getId();
+                                dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
+                                removeProduct(itemPosition);
                                 return true;
                             default:
                                 return false;

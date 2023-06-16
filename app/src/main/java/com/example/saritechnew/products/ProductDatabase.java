@@ -123,15 +123,6 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 return productList;
         }
 
-        public void deleteProductById(int productId) {
-                SQLiteDatabase db = getWritableDatabase();
-                String selection = COLUMN_ID + " = ?";
-                String[] selectionArgs = { String.valueOf(productId) };
-                db.delete(TABLE_NAME, selection, selectionArgs);
-                db.close();
-        }
-
-
         public void updateProductByBarcode(String barcode, String name, double price, int quantity) {
                 SQLiteDatabase db = getWritableDatabase();
                 ContentValues values = new ContentValues();
@@ -139,6 +130,13 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 values.put(COLUMN_PRICE, price);
                 values.put(COLUMN_QUANTITY, quantity);
                 db.update(TABLE_NAME, values, COLUMN_BARCODE + " = ?", new String[]{barcode});
+        }
+
+        public void deleteProduct(int productId) {
+                SQLiteDatabase db = getWritableDatabase();
+                String selection = COLUMN_ID + " = ?";
+                String[] selectionArgs = { String.valueOf(productId) };
+                db.delete(TABLE_NAME, selection, selectionArgs);
         }
 }
 

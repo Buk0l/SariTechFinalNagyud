@@ -2,18 +2,15 @@ package com.example.saritechnew;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.saritechnew.databinding.ActivityMainBinding;
+import com.example.saritechnew.ui.HistoryFragment;
+import com.example.saritechnew.ui.HomeFragment;
+import com.example.saritechnew.ui.InventoryFragment;
+import com.example.saritechnew.ui.ProfileFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {

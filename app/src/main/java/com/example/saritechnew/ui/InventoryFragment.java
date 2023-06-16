@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.ui;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.saritechnew.ProductAdapter;
+import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
@@ -70,7 +72,7 @@ public class InventoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Initialize the ProductAdapter
-        ProductAdapter productAdapter = new ProductAdapter();
+        ProductAdapter productAdapter = new ProductAdapter(requireContext());
         recyclerView.setAdapter(productAdapter);
 
         // Retrieve the product list from the database
