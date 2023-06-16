@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <com.budiyev.android.codescanner.CodeScannerView
-        android:id="@+id/scanner_view"
+        android:id="@+id/scanner_view_add"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:autoFocusButtonColor="#1E385C"
@@ -16,6 +16,5 @@
         app:frameCornersRadius="60dp"
         app:frameColor="#1E385C"
         app:frameThickness="4dp"/>
-
 
 </FrameLayout>
