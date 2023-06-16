@@ -1,7 +1,5 @@
 package com.example.saritechnew.products;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

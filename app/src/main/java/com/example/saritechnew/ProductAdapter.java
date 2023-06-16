@@ -1,12 +1,10 @@
 package com.example.saritechnew;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -28,6 +26,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         dbHelper = new ProductDatabase(context);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setProducts(List<Products> productList) {
         productsList.clear();
         productsList.addAll(productList);
@@ -58,52 +57,46 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Products product = productsList.get(position);
         holder.textViewName.setText(product.getName());
-        holder.textViewPrice.setText("Price : " + "₱" + String.valueOf(product.getPrice()));
-        holder.textViewQuantity.setText("Quantity : " + String.valueOf(product.getQuantity()));
+        holder.textViewPrice.setText("Price : " + "₱" + product.getPrice());
+        holder.textViewQuantity.setText("Quantity : " + product.getQuantity());
         // Bind more product details to the corresponding views
 
-        holder.menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create a PopupMenu
-                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                popupMenu.inflate(R.menu.kebab_menu); // Assuming you have a menu resource file named 'product_menu.xml'
+        holder.menuButton.setOnClickListener(view -> {
+            // Create a PopupMenu
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            popupMenu.inflate(R.menu.kebab_menu); // Assuming you have a menu resource file named 'product_menu.xml'
 
-                // Handle menu item clicks
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_edit:
-                                // Handle edit action
-                                return true;
-                            case R.id.menu_delete:
-                                // Handle delete action
-                                int itemPosition = holder.getAbsoluteAdapterPosition();
-                                Products product = productsList.get(itemPosition);
-                                int productId = product.getId();
-                                dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
-                                removeProduct(itemPosition);
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-
-                // Show the popup menu
-                popupMenu.show();
-            }
+            // Handle menu item clicks
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.menu_edit) {
+                    // Handle edit action
+                    return true;
+                } else if (itemId == R.id.menu_delete) {
+                    // Handle delete action
+                    int itemPosition = holder.getAbsoluteAdapterPosition();
+                    Products product1 = productsList.get(itemPosition);
+                    int productId = product1.getId();
+                    dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
+                    removeProduct(itemPosition);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            // Show the popup menu
+            popupMenu.show();
         });
     }
 
     @Override
     public int getItemCount() {
-        if (productsList == null || productsList.isEmpty()) {
+        if (productsList.isEmpty()) {
             return 0;
         } else {
             return productsList.size();

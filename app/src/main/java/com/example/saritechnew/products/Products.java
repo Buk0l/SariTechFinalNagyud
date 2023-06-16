@@ -4,7 +4,7 @@
         private int id;
         private String name;
         private double price;
-        private String barcode;
+        private final String barcode;
         private int quantity;
         private String photoPath;
 

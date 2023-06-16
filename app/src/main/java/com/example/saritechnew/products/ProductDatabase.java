@@ -13,7 +13,6 @@ import java.util.List;
 
 
 public class ProductDatabase extends SQLiteOpenHelper {
-        private Context context;
         private static final String DATABASE_NAME = "ProductList.db";
         private static final int DATABASE_VERSION = 2;
         private static final String TABLE_NAME = "products";
@@ -26,7 +25,6 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
         public ProductDatabase(@Nullable Context context) {
                 super(context, DATABASE_NAME, null, DATABASE_VERSION);
-                this.context = context;
 
         }
 
