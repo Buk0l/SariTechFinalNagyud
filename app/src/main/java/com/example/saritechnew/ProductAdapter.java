@@ -52,8 +52,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyItemChanged(position);
     }
 
-
-
     public void addProduct(Products product) {
         productsList.add(product);
         notifyItemInserted(productsList.size() - 1);
@@ -96,11 +94,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     return true;
                 } else if (itemId == R.id.menu_delete) {
                     // Handle delete action
-                    int itemPosition = holder.getAbsoluteAdapterPosition();
-                    Products product1 = productsList.get(itemPosition);
-                    int productId = product1.getId();
-                    dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
-                    removeProduct(itemPosition);
+                    showDeleteConfirmationDialog(holder);
                     return true;
                 } else {
                     return false;
@@ -151,6 +145,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             Toast.makeText(context, "Product updated successfully", Toast.LENGTH_SHORT).show();
         });
 
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDeleteConfirmationDialog(@NonNull ProductViewHolder holder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirm Delete");
+        builder.setMessage("Are you sure you want to delete this item?");
+
+        // Set up the buttons
+        builder.setPositiveButton("Delete", (dialog, which) -> {
+            int itemPosition = holder.getAbsoluteAdapterPosition();
+            Products product1 = productsList.get(itemPosition);
+            int productId = product1.getId();
+            dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
+            removeProduct(itemPosition);
+            Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+        });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
