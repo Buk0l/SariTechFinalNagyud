@@ -31,8 +31,8 @@ public class AddOnlyBarcodeScanner extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.barcode_scanner);
-            CodeScannerView scannerView = findViewById(R.id.scanner_view);
+            setContentView(R.layout.add_barcode_scanner);
+            CodeScannerView scannerView = findViewById(R.id.scanner_view_add);
             mCodeScanner = new CodeScanner(this, scannerView);
 
             // Set the decode callback for the code scanner

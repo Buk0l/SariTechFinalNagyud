@@ -22,7 +22,7 @@ import com.example.saritechnew.products.Products;
 
 import java.util.List;
 
-public class MenuBarcodeScanner extends AppCompatActivity {
+public class CartBarcodeScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private String scannedBarcode;
 
@@ -31,14 +31,14 @@ public class MenuBarcodeScanner extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.barcode_scanner_menu);
-        CodeScannerView scannerView = findViewById(R.id.scanner_view_menu);
+        setContentView(R.layout.add_barcode_scanner);
+        CodeScannerView scannerView = findViewById(R.id.scanner_view_add);
         mCodeScanner = new CodeScanner(this, scannerView);
 
         // Set the decode callback for the code scanner
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
             scannedBarcode = result.getText();
-            Toast.makeText(MenuBarcodeScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(CartBarcodeScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
 
             // Check if the barcode is recognized
             if (isBarcodeRecognized(scannedBarcode)) {
@@ -46,7 +46,7 @@ public class MenuBarcodeScanner extends AppCompatActivity {
                 showProductDetails(scannedBarcode);
             } else {
                 // Barcode is not recognized, ask to add the product
-                askToAddBarcode(scannedBarcode);
+                showInsertProductDialog(scannedBarcode);
             }
 
         }));
@@ -128,38 +128,6 @@ public class MenuBarcodeScanner extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void askToAddBarcode(String barcode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.ask_add_barcode, null);
-        builder.setView(dialogView);
-
-        // Find the views in the dialog layout
-        TextView titleTextView = dialogView.findViewById(R.id.dialog_title);
-        TextView messageTextView = dialogView.findViewById(R.id.dialog_message);
-        Button positiveButton = dialogView.findViewById(R.id.dialog_positive_button);
-        Button negativeButton = dialogView.findViewById(R.id.dialog_negative_button);
-
-        // Set the text and click listeners for the views
-        titleTextView.setText("Barcode Not Recognized");
-        messageTextView.setText("Barcode not recognized. Do you want to add it?");
-
-        AlertDialog dialog = builder.create();
-
-        positiveButton.setOnClickListener(v -> {
-            // User clicked "Yes", show insert product dialog
-            showInsertProductDialog(barcode);
-            dialog.dismiss();
-        });
-
-        negativeButton.setOnClickListener(v -> {
-            // User clicked "No", show a toast message
-            Toast.makeText(this, "Barcode not added", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        });
-        dialog.show();
-    }
-
-    @SuppressLint("SetTextI18n")
     private void showInsertProductDialog(String barcode) {
         // Create an instance of the AlertDialog.Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -184,19 +152,19 @@ public class MenuBarcodeScanner extends AppCompatActivity {
             int quantity = Integer.parseInt(quantityEditText.getText().toString());
 
             // Insert the product into the database
-            try (ProductDatabase productDatabase = new ProductDatabase(MenuBarcodeScanner.this)) {
+            try (ProductDatabase productDatabase = new ProductDatabase(CartBarcodeScanner.this)) {
                 productDatabase.insertProduct(name, price, barcode, quantity, null);
 
 
             }
 
-            Toast.makeText(MenuBarcodeScanner.this, "Product inserted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CartBarcodeScanner.this, "Product inserted", Toast.LENGTH_SHORT).show();
             alertDialog.dismiss(); // Close the dialog
         });
 
         negativeButton.setOnClickListener(v -> {
             alertDialog.dismiss(); // Close the dialog
-            Toast.makeText(MenuBarcodeScanner.this, "Product not inserted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CartBarcodeScanner.this, "Product not inserted", Toast.LENGTH_SHORT).show();
         });
     }
 
