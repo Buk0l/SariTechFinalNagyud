@@ -121,13 +121,17 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 return productList;
         }
 
-        public void updateProductByBarcode(String barcode, String name, double price, int quantity) {
-                SQLiteDatabase db = getWritableDatabase();
+        public void updateProduct(Products product) {
+                SQLiteDatabase db = this.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put(COLUMN_NAME, name);
-                values.put(COLUMN_PRICE, price);
-                values.put(COLUMN_QUANTITY, quantity);
-                db.update(TABLE_NAME, values, COLUMN_BARCODE + " = ?", new String[]{barcode});
+                values.put(COLUMN_NAME, product.getName());
+                values.put(COLUMN_PRICE, product.getPrice());
+                values.put(COLUMN_QUANTITY, product.getQuantity());
+                values.put(COLUMN_PHOTO_PATH, product.getPhotoPath());
+
+                // Update the product entry in the database
+                db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(product.getId())});
+                db.close();
         }
 
         public void deleteProduct(int productId) {

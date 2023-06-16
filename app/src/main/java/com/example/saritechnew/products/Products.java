@@ -12,7 +12,7 @@
             this.id = id;
             this.name = name;
             this.price = price;
-            this.barcode = barcode;
+            this.barcode = String.valueOf(barcode);
             this.quantity = quantity;
             this.photoPath = photoPath;
         }

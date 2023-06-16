@@ -5,11 +5,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saritechnew.products.ProductDatabase;
@@ -22,7 +25,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private final List<Products> productsList = new ArrayList<>();
     ProductDatabase dbHelper;
 
+    private final Context context;
+
     public ProductAdapter(Context context) {
+        this.context = context;
         dbHelper = new ProductDatabase(context);
     }
 
@@ -34,9 +40,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public void updateProduct(Products product, int position) {
-        productsList.set(position, product);
+        int productId = product.getId();
+        String productName = product.getName();
+        double productPrice = product.getPrice();
+        String productBarcode = String.valueOf(product.getBarcode()); // Convert int to String
+        int productQuantity = product.getQuantity();
+        String productPhotoPath = product.getPhotoPath();
+
+        Products updatedProduct = new Products(productId, productName, productPrice, productBarcode, productQuantity, productPhotoPath);
+        productsList.set(position, updatedProduct);
         notifyItemChanged(position);
     }
+
+
 
     public void addProduct(Products product) {
         productsList.add(product);
@@ -76,6 +92,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 int itemId = item.getItemId();
                 if (itemId == R.id.menu_edit) {
                     // Handle edit action
+                    showEditProductDialog(product, position);
                     return true;
                 } else if (itemId == R.id.menu_delete) {
                     // Handle delete action
@@ -93,6 +110,53 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             popupMenu.show();
         });
     }
+
+    private void showEditProductDialog(Products product, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_product, null);
+        builder.setView(view);
+
+        EditText editTextName = view.findViewById(R.id.edit_text_name);
+        EditText editTextPrice = view.findViewById(R.id.edit_text_price);
+        EditText editTextQuantity = view.findViewById(R.id.edit_text_quantity);
+
+        // Set the initial values of the EditText fields
+        editTextName.setText(product.getName());
+        editTextPrice.setText(String.valueOf(product.getPrice()));
+        editTextQuantity.setText(String.valueOf(product.getQuantity()));
+
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String name = editTextName.getText().toString().trim();
+            String priceText = editTextPrice.getText().toString().trim();
+            String quantityText = editTextQuantity.getText().toString().trim();
+
+            // Check if any of the fields are empty
+            if (name.isEmpty() || priceText.isEmpty() || quantityText.isEmpty()) {
+                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double price = Double.parseDouble(priceText);
+            int quantity = Integer.parseInt(quantityText);
+
+            // Create a new Products object with updated values
+            Products updatedProduct = new Products(product.getId(), name, price, null, quantity, null);
+
+            // Update the product in the database
+            dbHelper.updateProduct(updatedProduct);
+
+            // Update the product in the adapter
+            updateProduct(updatedProduct, position);
+
+            Toast.makeText(context, "Product updated successfully", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     @Override
     public int getItemCount() {

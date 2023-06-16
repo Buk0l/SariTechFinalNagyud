@@ -15,29 +15,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.saritechnew.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
 
         binding.navView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.navigation_home:
-                    replaceFragment(new HomeFragment());
-                    break;
-                case R.id.navigation_history:
-                    replaceFragment(new HistoryFragment());
-                    break;
-                case R.id.navigation_inventory:
-                    replaceFragment(new InventoryFragment());
-                    break;
-                case R.id.navigation_profile:
-                    replaceFragment(new ProfileFragment());
-                    break;
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_home) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.navigation_history) {
+                replaceFragment(new HistoryFragment());
+            } else if (itemId == R.id.navigation_inventory) {
+                replaceFragment(new InventoryFragment());
+            } else if (itemId == R.id.navigation_profile) {
+                replaceFragment(new ProfileFragment());
             }
             return true;
         });
