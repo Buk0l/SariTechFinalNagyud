@@ -6,13 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ProductDatabase extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "ProductList.db";
         private static final int DATABASE_VERSION = 2;
-
         private static final String TABLE_NAME = "products";
         private static final String COLUMN_ID = "id";
         private static final String COLUMN_NAME = "name";
@@ -21,8 +23,9 @@ public class ProductDatabase extends SQLiteOpenHelper {
         private static final String COLUMN_QUANTITY = "quantity";
         private static final String COLUMN_PHOTO_PATH = "photo_path";
 
-        public ProductDatabase(Context context) {
+        public ProductDatabase(@Nullable Context context) {
                 super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
         }
 
         @Override
@@ -87,14 +90,55 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 return productList;
         }
 
+        public List<Products> getListProducts() {
+                List<Products> productList = new ArrayList<>();
 
-        public void updateProductByBarcode(String barcode, String name, double price, int quantity) {
-                SQLiteDatabase db = getWritableDatabase();
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                        int idColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_ID);
+                        int nameColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME);
+                        int priceColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_PRICE);
+                        int barcodeColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_BARCODE);
+                        int quantityColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_QUANTITY);
+                        int photoPathColumnIndex = cursor.getColumnIndexOrThrow(COLUMN_PHOTO_PATH);
+
+                        do {
+                                int id = cursor.getInt(idColumnIndex);
+                                String name = cursor.getString(nameColumnIndex);
+                                double price = cursor.getDouble(priceColumnIndex);
+                                String barcode = cursor.getString(barcodeColumnIndex);
+                                int quantity = cursor.getInt(quantityColumnIndex);
+                                String photoPath = cursor.getString(photoPathColumnIndex);
+
+                                Products product = new Products(id, name, price, barcode, quantity, photoPath);
+                                productList.add(product);
+                        } while (cursor.moveToNext());
+
+                        cursor.close();
+                }
+
+                return productList;
+        }
+
+        public void updateProduct(Products product) {
+                SQLiteDatabase db = this.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put(COLUMN_NAME, name);
-                values.put(COLUMN_PRICE, price);
-                values.put(COLUMN_QUANTITY, quantity);
-                db.update(TABLE_NAME, values, COLUMN_BARCODE + " = ?", new String[]{barcode});
+                values.put(COLUMN_NAME, product.getName());
+                values.put(COLUMN_PRICE, product.getPrice());
+                values.put(COLUMN_QUANTITY, product.getQuantity());
+                values.put(COLUMN_PHOTO_PATH, product.getPhotoPath());
+
+                // Update the product entry in the database
+                db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(product.getId())});
+                db.close();
+        }
+
+        public void deleteProduct(int productId) {
+                SQLiteDatabase db = getWritableDatabase();
+                String selection = COLUMN_ID + " = ?";
+                String[] selectionArgs = { String.valueOf(productId) };
+                db.delete(TABLE_NAME, selection, selectionArgs);
         }
 }
 
