@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -25,7 +26,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.SaritechNew.NoActionBar">
+            android:theme="@style/Theme.SaritechNew.NoActionBar"
+            tools:ignore="RedundantLabel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,10 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BarcodeScanner"
+            android:name=".MenuBarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
-        <activity android:name=".products.InventoryList"
+        <activity
+            android:name=".AddOnlyBarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
     </application>

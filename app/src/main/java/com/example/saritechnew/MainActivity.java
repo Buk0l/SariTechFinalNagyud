@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> {
             // Perform your desired action when the FAB button is clicked
             // For example, you can start the BarcodeScanner activity
-            Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+            Intent intent = new Intent(MainActivity.this, MenuBarcodeScanner.class);
             startActivity(intent);
         });
     }

@@ -1,14 +1,17 @@
 package com.example.saritechnew.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.example.saritechnew.AddOnlyBarcodeScanner;
 import com.example.saritechnew.ProductAdapter;
 import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
@@ -64,8 +67,13 @@ public class InventoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
+        ImageView addButton = view.findViewById(R.id.addButton);
+        addButton.setOnClickListener(v -> {
+            // Perform the action when the addButton is clicked
+            Intent intent = new Intent(requireContext(), AddOnlyBarcodeScanner.class);
+            startActivity(intent);
+        });
 
         // Initialize the RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProducts);
@@ -75,14 +83,12 @@ public class InventoryFragment extends Fragment {
         ProductAdapter productAdapter = new ProductAdapter(requireContext());
         recyclerView.setAdapter(productAdapter);
 
-        // Retrieve the product list from the database
-        ProductDatabase productDatabase = new ProductDatabase(getActivity());
-        List<Products> productList = productDatabase.getListProducts();
-
-        // Set the product list to the adapter
-        productAdapter.setProducts(productList);
-
+        // Retrieve the product list from the database using try-with-resources
+        try (ProductDatabase productDatabase = new ProductDatabase(getActivity())) {
+            List<Products> productList = productDatabase.getListProducts();
+            // Set the product list to the adapter
+            productAdapter.setProducts(productList);
+        }
         return view;
-
     }
 }
