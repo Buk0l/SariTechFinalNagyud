@@ -35,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuBarcodeScanner"
+            android:name=".BarcodeScanners.MenuBarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
         <activity
-            android:name=".AddOnlyBarcodeScanner"
+            android:name=".BarcodeScanners.AddOnlyBarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
     </application>

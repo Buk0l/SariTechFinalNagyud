@@ -52,11 +52,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyItemChanged(position);
     }
 
-    public void addProduct(Products product) {
-        productsList.add(product);
-        notifyItemInserted(productsList.size() - 1);
-    }
-
     public void removeProduct(int position) {
         if (position >= 0 && position < productsList.size()) {
             productsList.remove(position);

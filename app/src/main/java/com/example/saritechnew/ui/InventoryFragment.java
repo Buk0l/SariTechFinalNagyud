@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.saritechnew.AddOnlyBarcodeScanner;
+import com.example.saritechnew.BarcodeScanners.AddOnlyBarcodeScanner;
 import com.example.saritechnew.ProductAdapter;
 import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;

@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.BarcodeScanners;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.example.saritechnew.PermissionUtils;
+import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
@@ -150,19 +152,19 @@ public class AddOnlyBarcodeScanner extends AppCompatActivity {
                 int quantity = Integer.parseInt(quantityEditText.getText().toString());
 
                 // Insert the product into the database
-                try (ProductDatabase productDatabase = new ProductDatabase(com.example.saritechnew.AddOnlyBarcodeScanner.this)) {
+                try (ProductDatabase productDatabase = new ProductDatabase(AddOnlyBarcodeScanner.this)) {
                     productDatabase.insertProduct(name, price, barcode, quantity, null);
 
 
                 }
 
-                Toast.makeText(com.example.saritechnew.AddOnlyBarcodeScanner.this, "Product inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddOnlyBarcodeScanner.this, "Product inserted", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss(); // Close the dialog
             });
 
             negativeButton.setOnClickListener(v -> {
                 alertDialog.dismiss(); // Close the dialog
-                Toast.makeText(com.example.saritechnew.AddOnlyBarcodeScanner.this, "Product not inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddOnlyBarcodeScanner.this, "Product not inserted", Toast.LENGTH_SHORT).show();
             });
         }
 

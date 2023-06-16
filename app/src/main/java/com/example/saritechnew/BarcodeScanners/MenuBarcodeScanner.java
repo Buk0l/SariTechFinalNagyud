@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.BarcodeScanners;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.example.saritechnew.PermissionUtils;
+import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 

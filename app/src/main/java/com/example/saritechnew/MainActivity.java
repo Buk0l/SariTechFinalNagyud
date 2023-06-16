@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.saritechnew.BarcodeScanners.MenuBarcodeScanner;
 import com.example.saritechnew.databinding.ActivityMainBinding;
 import com.example.saritechnew.ui.HistoryFragment;
 import com.example.saritechnew.ui.HomeFragment;
