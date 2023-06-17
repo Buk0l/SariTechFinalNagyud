@@ -153,7 +153,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Set up the buttons
         builder.setPositiveButton("Delete", (dialog, which) -> {
-            int itemPosition = holder.getAbsoluteAdapterPosition();
+            int itemPosition = holder.getAdapterPosition();
             Products product1 = productsList.get(itemPosition);
             int productId = product1.getId();
             dbHelper.deleteProduct(productId); // Call the deleteProduct() method from the dbHelper object
