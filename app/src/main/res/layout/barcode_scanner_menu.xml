@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,6 +14,18 @@
         app:frameCornersCapRounded="true"
         app:frameCornersRadius="60dp"
         app:frameColor="#1E385C"
-        app:frameThickness="4dp"/>
+        app:frameThickness="4dp" />
+
+    <ImageButton
+        android:id="@+id/cart_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="80dp"
+        android:background="@null"
+        android:src="@drawable/ic_action_cart"
+        app:tint="#FFFFFF"
+        android:contentDescription="Cart Button"
+        tools:ignore="HardcodedText" />
 
 </FrameLayout>

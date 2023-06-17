@@ -1,11 +1,13 @@
 package com.example.saritechnew.BarcodeScanners;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +19,18 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.example.saritechnew.PermissionUtils;
 import com.example.saritechnew.R;
+import com.example.saritechnew.SelectedProductsActivity;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuBarcodeScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private String scannedBarcode;
 
+    private final List<Products> selectedProducts = new ArrayList<>();
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 123;
 
     @Override
@@ -56,6 +61,19 @@ public class MenuBarcodeScanner extends AppCompatActivity {
         if (!PermissionUtils.checkCameraPermission(this)) {
             PermissionUtils.requestCameraPermission(this, CAMERA_PERMISSION_REQUEST_CODE);
         }
+
+        ImageButton showProductsButton = findViewById(R.id.cart_Button);
+        showProductsButton.setOnClickListener(v -> {
+            if (selectedProducts != null && !selectedProducts.isEmpty()) {
+                Intent intent = new Intent(MenuBarcodeScanner.this, SelectedProductsActivity.class);
+                intent.putExtra("selectedProducts", new ArrayList<>(selectedProducts));
+                startActivity(intent);
+            } else {
+                Toast.makeText(MenuBarcodeScanner.this, "No products selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     @Override
@@ -92,12 +110,25 @@ public class MenuBarcodeScanner extends AppCompatActivity {
             // Query the database to get the product details
             List<Products> productList = productDatabase.getAllProducts(barcode);
 
-            Log.d("BarcodeScanner", "Product List Size: " + productList.size());
-
             if (!productList.isEmpty()) {
+                Products selectedProduct = productList.get(0); // Assuming only one product is selected
+
+                if (!selectedProducts.contains(selectedProduct)) {
+                    // Product is not already in the cart, add it
+                    addToCart(selectedProduct);
+
+                    // Display a toast message
+                    Toast.makeText(this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Product is already in the cart, display a message
+                    Toast.makeText(this, "Product is already in the cart", Toast.LENGTH_SHORT).show();
+                }
+
+                // Rest of your code for showing product details...
+
                 // Create the dialog using the dialog_product_details layout
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View dialogView = getLayoutInflater().inflate(R.layout.dialog_product_details, null);
+                View dialogView = getLayoutInflater().inflate(R.layout.add_to_cart_details, null);
                 builder.setView(dialogView);
 
                 // Find the TextViews in the dialog layout
@@ -118,13 +149,34 @@ public class MenuBarcodeScanner extends AppCompatActivity {
                 priceTextView.setText("Price:\n" + prices);
                 quantityTextView.setText("Quantity:\n" + quantities);
 
-                builder.setPositiveButton("OK", null);
-                builder.show();
+                AlertDialog alertDialog = builder.create();
+
+                Button addToCartButton = dialogView.findViewById(R.id.button_add_to_cart);
+                Button cancelButton = dialogView.findViewById(R.id.button_cancel);
+
+                addToCartButton.setOnClickListener(v -> {
+                    alertDialog.dismiss(); // Dismiss the dialog after adding to cart
+                });
+
+                cancelButton.setOnClickListener(v -> alertDialog.dismiss());
+
+                alertDialog.show(); // Show the dialog
+
             } else {
                 // Product details not found for the barcode
                 Toast.makeText(this, "Product details not available", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+
+    private void addToCart(Products product) {
+        // Add the product to the selectedProducts list
+        selectedProducts.add(product);
+
+        // Perform any additional actions, such as updating the UI or displaying a message
+        Toast.makeText(this, "Product added to cart", Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("SetTextI18n")

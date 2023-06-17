@@ -1,6 +1,9 @@
     package com.example.saritechnew.products;
 
-    public class Products {
+    import android.os.Parcel;
+    import android.os.Parcelable;
+
+    public class Products implements Parcelable {
         private int id;
         private String name;
         private double price;
@@ -61,5 +64,43 @@
 
         public String getBarcode() {
             return barcode;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(id);
+            dest.writeString(name);
+            dest.writeDouble(price);
+            dest.writeString(barcode);
+            dest.writeInt(quantity);
+            dest.writeString(photoPath);
+        }
+
+        // Add a Creator for the Parcelable interface
+        public static final Parcelable.Creator<Products> CREATOR = new Parcelable.Creator<Products>() {
+            @Override
+            public Products createFromParcel(Parcel in) {
+                return new Products(in);
+            }
+
+            @Override
+            public Products[] newArray(int size) {
+                return new Products[size];
+            }
+        };
+
+        // Add a constructor that reads from a Parcel
+        protected Products(Parcel in) {
+            id = in.readInt();
+            name = in.readString();
+            price = in.readDouble();
+            barcode = in.readString();
+            quantity = in.readInt();
+            photoPath = in.readString();
         }
     }

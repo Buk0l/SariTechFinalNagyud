@@ -42,6 +42,10 @@
             android:name=".BarcodeScanners.AddOnlyBarcodeScanner"
             android:theme="@style/Theme.SaritechNew.NoActionBar">
         </activity>
+        <activity
+            android:name=".SelectedProductsActivity"
+            android:theme="@style/Theme.SaritechNew.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
