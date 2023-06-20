@@ -10,6 +10,7 @@
         private final String barcode;
         private int quantity;
         private String photoPath;
+        private int selectedQuantity;
 
         public Products(int id, String name, double price, String barcode, int quantity, String photoPath) {
             this.id = id;
@@ -69,6 +70,14 @@
         @Override
         public int describeContents() {
             return 0;
+        }
+
+        public int getSelectedQuantity(){
+            return selectedQuantity;
+        }
+
+        public void setSelectedQuantity(int selectedQuantity){
+            this.selectedQuantity = selectedQuantity;
         }
 
         @Override
