@@ -84,7 +84,7 @@ public class SelectedProductsActivity extends AppCompatActivity {
                 product.setSelectedQuantity(quantity);
                 calculatedTotalPrice();
                 double totalPrice = getTotalPrice();
-                overallPrice.setText("Price: ₱" + totalPrice); // Update the displayed total price
+                overallPrice.setText("Total Price: ₱" + totalPrice); // Update the displayed total price
             });
         }
 
@@ -103,6 +103,12 @@ public class SelectedProductsActivity extends AppCompatActivity {
             for (Products products : productList) {
                 double price = products.getPrice();
                 int quantity = products.getSelectedQuantity();
+
+                if (quantity < 1) {
+                    quantity = 1;
+                    products.setSelectedQuantity(quantity);
+                }
+
                 totalPrice += price * quantity;
             }
         }
@@ -170,6 +176,9 @@ public class SelectedProductsActivity extends AppCompatActivity {
 
                 // Set the initial quantity in the EditText
                 quantityEditText.setText(String.valueOf(product.getSelectedQuantity()));
+
+                quantityEditText.setText("1");
+                updateQuantity();
             }
 
             private void decreaseQuantity() {
