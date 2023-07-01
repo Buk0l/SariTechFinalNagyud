@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
 import java.util.ArrayList;
@@ -33,9 +35,39 @@ public class SelectedProductsActivity extends AppCompatActivity {
 
         Button checkOut = findViewById(R.id.button_check_out);
         TextView overallPrice = findViewById(R.id.overall);
+        EditText moneyEditText = findViewById(R.id.money);
+        TextView changeTextView = findViewById(R.id.change);
 
         checkOut.setOnClickListener(v -> {
+            for (Products product : selectedProducts) {
+                int selectedQuantity = product.getSelectedQuantity();
+                int currentQuantity = product.getQuantity();
 
+                // Subtract the selected quantity from the current quantity
+                if(currentQuantity > selectedQuantity) {
+                    int newQuantity = currentQuantity - selectedQuantity;
+                    if (newQuantity < 0) {
+                        newQuantity = 0; // Ensure the quantity doesn't go below zero
+                    }
+                    // Update the quantity in the database
+                    product.setQuantity(newQuantity);
+                    Toast.makeText(SelectedProductsActivity.this,"Check out Successful!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(SelectedProductsActivity.this, "Check out failed. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+
+                try (ProductDatabase productDatabase = new ProductDatabase(this)) {
+                    productDatabase.updateProduct(product);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle any exceptions that may occur during the database operation
+                }
+            }
+
+            // Perform any other checkout operations here
+
+            finish();
         });
 
         ArrayList<Parcelable> parcelables = getIntent().getParcelableArrayListExtra("selectedProducts");
@@ -49,21 +81,27 @@ public class SelectedProductsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_products);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        SelectedProductsAdapter adapter = new SelectedProductsAdapter(selectedProducts, overallPrice);
+        SelectedProductsAdapter adapter = new SelectedProductsAdapter(selectedProducts, overallPrice, moneyEditText, changeTextView);
         recyclerView.setAdapter(adapter);
         double totalPrice = adapter.getTotalPrice();
         overallPrice.setText("Price: ₱" + totalPrice);
+
     }
+
 
     // RecyclerView Adapter
     static class SelectedProductsAdapter extends RecyclerView.Adapter<SelectedProductsAdapter.ProductViewHolder> {
         private final List<Products> productList;
         private final TextView overallPrice;
+        private final EditText moneyEditText;
+        private final TextView changeTextView;
         private double totalPrice = 0.0;
 
-        public SelectedProductsAdapter(List<Products> productList, TextView overallPrice) {
+        public SelectedProductsAdapter(List<Products> productList, TextView overallPrice, EditText moneyEditText, TextView changeTextView) {
             this.productList = productList;
             this.overallPrice = overallPrice;
+            this.moneyEditText = moneyEditText;
+            this.changeTextView = changeTextView;
             calculatedTotalPrice();
         }
 
@@ -85,7 +123,34 @@ public class SelectedProductsActivity extends AppCompatActivity {
                 calculatedTotalPrice();
                 double totalPrice = getTotalPrice();
                 overallPrice.setText("Total Price: ₱" + totalPrice); // Update the displayed total price
+
+                moneyEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // Not used
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // Not used
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        String moneyText = s.toString().trim();
+
+                        if (!moneyText.isEmpty()) {
+                            int money = Integer.parseInt(moneyText);
+                            double change = money - totalPrice;
+
+                            changeTextView.setText("Change: ₱" + change); // Display the calculated change
+                        } else {
+                            changeTextView.setText("Change: ₱0.0"); // Reset the change text if the money text is empty
+                        }
+                    }
+                });
             });
+
         }
 
         @Override

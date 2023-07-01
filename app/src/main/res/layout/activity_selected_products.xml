@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="651dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
         android:padding="16dp">
 
         <TextView
@@ -24,19 +25,32 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_products"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="550dp"
             android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewCart" />
+            app:layout_constraintTop_toBottomOf="@id/textViewCart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <EditText
+        android:id="@+id/money"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_bar"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter Money"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        tools:ignore="HardcodedText" />
 
     <RelativeLayout
         android:id="@+id/bottom_bar"
@@ -53,15 +67,33 @@
             android:layout_height="wrap_content"
             android:text="Check Out"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginEnd="16dp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/overall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginEnd="16dp"
+            android:text="Total Price: ₱0.0"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overall"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Change: ₱0.0"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
     </RelativeLayout>
 
