@@ -24,6 +24,13 @@
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="201dp" />
 
+    <EditText
+        android:id="@+id/editTextFirstName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="First Name" />
+
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
@@ -34,15 +41,29 @@
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="278dp" />
 
+    <EditText
+        android:id="@+id/editTextLastName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Last Name" />
+
     <ImageButton
         android:id="@+id/imageButton7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         app:srcCompat="@drawable/IMG_EML"
-        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck"
+        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,ImageContrastCheck"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="355dp" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Email" />
 
     <ImageButton
         android:id="@+id/imageButton8"
@@ -83,5 +104,20 @@
         tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="110dp"
         tools:layout_editor_absoluteY="615dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="341dp"
+        android:layout_height="31dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="302dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="324dp"
+        android:layout_height="38dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="225dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
