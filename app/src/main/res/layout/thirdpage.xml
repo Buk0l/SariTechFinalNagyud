@@ -10,15 +10,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/img_login"
+        tools:ignore="ContentDescription,MissingConstraints"
         tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="53dp"
-        tools:ignore="ContentDescription,MissingConstraints" />
+        tools:layout_editor_absoluteY="53dp" />
 
     <ImageButton
         android:id="@+id/img_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onLayoutClicked"
         app:srcCompat="@drawable/img_arrow"
         tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="16dp"
@@ -29,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/img_welcomeback"
+        tools:ignore="ContentDescription,MissingConstraints"
         tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="104dp"
-        tools:ignore="ContentDescription,MissingConstraints" />
+        tools:layout_editor_absoluteY="104dp" />
 
     <ImageButton
         android:id="@+id/img_email"
@@ -42,6 +45,19 @@
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="256dp" />
 
+    <EditText
+        android:id="@+id/editTextEmailOrPhone"
+        android:layout_width="292dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="8dp"
+        android:autofillHints=""
+        android:hint=""
+        android:inputType="textEmailAddress|phone"
+        app:layout_constraintBottom_toBottomOf="@+id/img_email"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+
     <ImageButton
         android:id="@+id/img_password"
         android:layout_width="334dp"
@@ -51,6 +67,19 @@
         app:srcCompat="@drawable/img_password"
         tools:ignore="ContentDescription,ImageContrastCheck,MissingConstraints,SpeakableTextPresentCheck"
         tools:layout_editor_absoluteY="337dp" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="74dp"
+        android:hint=""
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/img_forgotpassword"
@@ -67,19 +96,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
+        android:clickable="true"
         app:srcCompat="@drawable/img_lgin"
         tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="467dp" />
 
-    <ImageButton
-        android:id="@+id/img_rememberme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        app:srcCompat="@drawable/img_rememberme"
-        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="523dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
