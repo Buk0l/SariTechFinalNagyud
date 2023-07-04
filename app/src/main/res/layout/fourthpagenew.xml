@@ -55,6 +55,17 @@
         tools:layout_editor_absoluteX="29dp"
         tools:layout_editor_absoluteY="434dp" />
 
+    <EditText
+        android:id="@+id/editTextSariSariStore"
+        style="@style/NoUnderlineEditText"
+        android:layout_width="328dp"
+        android:layout_height="42dp"
+        android:backgroundTint="@android:color/transparent"
+        android:hint=""
+        android:inputType="text"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="456dp" />
+
     <ImageButton
         android:id="@+id/imageButton9"
         android:layout_width="wrap_content"
@@ -65,15 +76,16 @@
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="512dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        app:srcCompat="@drawable/IMG_TERMS"
-        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="579dp" />
+    <EditText
+        android:id="@+id/editTextPassword"
+        style="@style/NoUnderlineEditText"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@android:color/transparent"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="526dp" />
 
     <ImageButton
         android:id="@+id/imageButton11"
@@ -84,6 +96,32 @@
         tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="110dp"
         tools:layout_editor_absoluteY="615dp" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAgree"
+        android:layout_width="44dp"
+        android:layout_height="39dp"
+        android:layout_alignStart="@id/imageButton11"
+        android:layout_alignTop="@id/imageButton11"
+        android:layout_alignBottom="@id/imageButton11"
+        android:button="@drawable/custom_checkbox"
+        android:clickable="true"
+        android:focusable="false"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textColor="#3F5A84"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="576dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageButton11"
+        android:layout_alignBottom="@id/imageButton11"
+        android:layout_toEndOf="@id/checkBoxAgree"
+        android:text="Agree with Terms and Conditions of SariTech"
+        android:textColor="#3F5A84"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="586dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="341dp"
