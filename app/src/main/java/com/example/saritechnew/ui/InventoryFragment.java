@@ -6,17 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saritechnew.BarcodeScanners.AddOnlyBarcodeScanner;
-import com.example.saritechnew.ProductAdapter;
+import com.example.saritechnew.Activity.ProductAdapter;
 import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ import java.util.List;
  */
 public class InventoryFragment extends Fragment {
 
+    private ProductAdapter productAdapter;
+    private List<Products> productList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,15 +68,34 @@ public class InventoryFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
         ImageView addButton = view.findViewById(R.id.addButton);
+        SearchView searchView = view.findViewById(R.id.searchView);
+
         addButton.setOnClickListener(v -> {
             // Perform the action when the addButton is clicked
             Intent intent = new Intent(requireContext(), AddOnlyBarcodeScanner.class);
             startActivity(intent);
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Perform search operation here
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Perform search filtering here
+                filterSearch(newText);
+                return true;
+            }
         });
 
         // Initialize the RecyclerView
@@ -80,15 +103,43 @@ public class InventoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Initialize the ProductAdapter
-        ProductAdapter productAdapter = new ProductAdapter(requireContext());
+        productAdapter = new ProductAdapter(requireContext());
         recyclerView.setAdapter(productAdapter);
 
         // Retrieve the product list from the database using try-with-resources
         try (ProductDatabase productDatabase = new ProductDatabase(getActivity())) {
-            List<Products> productList = productDatabase.getListProducts();
+            productList = productDatabase.getListProducts();
             // Set the product list to the adapter
             productAdapter.setProducts(productList);
         }
         return view;
+    }
+
+    private void performSearch(String query) {
+        List<Products> searchResults = new ArrayList<>();
+
+        // Perform search operation using the query
+        for (Products product : productList) {
+            if (product.getName().toLowerCase().contains(query.toLowerCase())) {
+                searchResults.add(product);
+            }
+        }
+
+        // Update the adapter dataset with search results
+        productAdapter.setProducts(searchResults);
+    }
+
+    private void filterSearch(String newText) {
+        List<Products> filteredResults = new ArrayList<>();
+
+        // Filter the dataset based on the new text
+        for (Products product : productList) {
+            if (product.getName().toLowerCase().contains(newText.toLowerCase())) {
+                filteredResults.add(product);
+            }
+        }
+
+        // Update the adapter dataset with filtered results
+        productAdapter.setProducts(filteredResults);
     }
 }

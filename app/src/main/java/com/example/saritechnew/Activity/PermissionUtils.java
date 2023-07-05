@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.Activity;
 
 import android.Manifest;
 import android.app.Activity;

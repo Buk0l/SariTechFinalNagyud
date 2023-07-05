@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.Activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 

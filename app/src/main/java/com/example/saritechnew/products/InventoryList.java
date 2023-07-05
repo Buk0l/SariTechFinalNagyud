@@ -5,7 +5,7 @@
 //
 //import androidx.appcompat.app.AppCompatActivity;
 //
-//import com.example.saritechnew.ProductAdapter;
+//import com.example.saritechnew.Activity.ProductAdapter;
 //import com.example.saritechnew.R;
 //
 //import androidx.recyclerview.widget.RecyclerView;

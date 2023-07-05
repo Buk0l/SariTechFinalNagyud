@@ -1,4 +1,4 @@
-package com.example.saritechnew;
+package com.example.saritechnew.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,14 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saritechnew.R;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-    private final List<Products> productsList = new ArrayList<>();
+    private final List<Products> productsList;
+    private final List<Products> filteredList;
     ProductDatabase dbHelper;
 
     private final Context context;
@@ -30,6 +33,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductAdapter(Context context) {
         this.context = context;
         dbHelper = new ProductDatabase(context);
+        productsList = new ArrayList<>();
+        filteredList = new ArrayList<>();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -37,6 +42,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         productsList.clear();
         productsList.addAll(productList);
         notifyDataSetChanged();
+        filteredList.clear();
+        filteredList.addAll(productList);
     }
 
     public void updateProduct(Products product, int position) {
@@ -169,11 +176,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public int getItemCount() {
-        if (productsList.isEmpty()) {
-            return 0;
-        } else {
-            return productsList.size();
-        }
+        return filteredList.size();
     }
 
 

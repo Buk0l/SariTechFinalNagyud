@@ -17,9 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
-import com.example.saritechnew.PermissionUtils;
+import com.example.saritechnew.Activity.PermissionUtils;
 import com.example.saritechnew.R;
-import com.example.saritechnew.SelectedProductsActivity;
+import com.example.saritechnew.Activity.SelectedProductsActivity;
 import com.example.saritechnew.products.ProductDatabase;
 import com.example.saritechnew.products.Products;
 
